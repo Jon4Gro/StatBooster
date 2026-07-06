@@ -1,7 +1,6 @@
 #ifndef MODULE_STAT_BOOST
 #define MODULE_STAT_BOOST
 
-#include <optional>
 #include "ChatCommand.h"
 #include "Config.h"
 #include "Spell.h"
@@ -16,12 +15,12 @@ class StatBoosterPlayer : public PlayerScript
 public:
     StatBoosterPlayer() : PlayerScript("StatBoosterPlayer") { }
 
-    void OnLogin(Player* player) override;
+    void OnPlayerLogin(Player* player) override;
     void OnPlayerLootItem(Player* player, Item* item, uint32 /*count*/, ObjectGuid /*lootguid*/) override;
-    bool OnPlayerQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override;
+    void OnPlayerQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override;
     void OnPlayerCreateItem(Player* player, Item* item, uint32 /*count*/) override;
-    bool OnPlayerGroupRollRewardItem(Player* player, Item* item, uint32 /*count*/, RollVote /*voteType*/, Roll* /*roll*/) override;
-    bool CanPlayerCastItemUseSpell(Player* /*player*/, Item* /*item*/, SpellCastTargets const& /*targets*/, uint8 /*cast_count*/, uint32 /*glyphIndex*/) override;
+    void OnPlayerGroupRollRewardItem(Player* player, Item* item, uint32 /*count*/, RollVote /*voteType*/, Roll* /*roll*/) override;
+    bool CanPlayerCastItemUseSpell(Player* /*player*/, Item* /*item*/, SpellCastTargets const& /*targets*/, uint8 /*cast_count*/, uint32 /*glyphIndex*/) ;
 };
 
 class StatBoosterWorld : public WorldScript
@@ -38,7 +37,7 @@ public:
     StatBoosterCommands() : CommandScript("StatBoosterCommands") { }
 
     ChatCommandTable GetCommands() const override;
-    static bool HandleSBAddItemCommand(ChatHandler* handler, uint32 itemId = 0, uint32 count = 0, std::optional<uint32> suffixId = std::nullopt);
+    static bool HandleSBAddItemCommand(ChatHandler* handler, uint32 itemId = 0, uint32 count = 0, Optional<uint32> suffixId = std::nullopt);
 };
 
 #endif

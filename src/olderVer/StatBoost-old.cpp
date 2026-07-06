@@ -1,6 +1,6 @@
 #include "StatBoost.h"
 
-void StatBoosterPlayer::OnLogin(Player* player)
+void StatBoosterPlayer::OnPlayerLogin(Player* player)
 {
     if (!sBoostConfigMgr->Enable)
     {
@@ -44,11 +44,11 @@ void StatBoosterPlayer::OnPlayerLootItem(Player* player, Item* item, uint32 /*co
     }
 }
 
-bool StatBoosterPlayer::OnPlayerQuestRewardItem(Player* player, Item* item, uint32 /*count*/)
+void StatBoosterPlayer::OnPlayerQuestRewardItem(Player* player, Item* item, uint32 /*count*/)
 {
     if (!sBoostConfigMgr->Enable)
     {
-        return true;
+        return;
     }
 
     if (sBoostConfigMgr->OnQuestRewardItemEnable)
@@ -73,7 +73,6 @@ bool StatBoosterPlayer::OnPlayerQuestRewardItem(Player* player, Item* item, uint
             }
         }
     }
-    return true;
 }
 
 void StatBoosterPlayer::OnPlayerCreateItem(Player* player, Item* item, uint32 /*count*/)
@@ -107,11 +106,11 @@ void StatBoosterPlayer::OnPlayerCreateItem(Player* player, Item* item, uint32 /*
     }
 }
 
-bool StatBoosterPlayer::OnPlayerGroupRollRewardItem(Player* player, Item* item, uint32 /*count*/, RollVote /*voteType*/, Roll* /*roll*/)
+void StatBoosterPlayer::OnPlayerGroupRollRewardItem(Player* player, Item* item, uint32 /*count*/, RollVote /*voteType*/, Roll* /*roll*/)
 {
     if (!sBoostConfigMgr->Enable)
     {
-        return true;
+        return;
     }
 
     if (sBoostConfigMgr->OnLootItemEnable)
@@ -136,7 +135,6 @@ bool StatBoosterPlayer::OnPlayerGroupRollRewardItem(Player* player, Item* item, 
             }
         }
     }
-    return true;
 }
 
 bool StatBoosterPlayer::CanPlayerCastItemUseSpell(Player* player, Item* item, SpellCastTargets const& targets, uint8 /*cast_count*/, uint32 /*glyphIndex*/)
@@ -247,7 +245,7 @@ ChatCommandTable StatBoosterCommands::GetCommands() const
 {
     static ChatCommandTable sbCommandTable =
     {
-        { "additem", HandleSBAddItemCommand, rbac::RBAC_PERM_SEC_ADMINISTRATOR, Console::No }
+        { "additem", HandleSBAddItemCommand, SEC_ADMINISTRATOR, Console::No }
     };
 
     static ChatCommandTable commandTable =
@@ -258,7 +256,7 @@ ChatCommandTable StatBoosterCommands::GetCommands() const
     return commandTable;
 }
 
-bool StatBoosterCommands::HandleSBAddItemCommand(ChatHandler* handler, uint32 itemId, uint32 count, std::optional<uint32> suffixId)
+bool StatBoosterCommands::HandleSBAddItemCommand(ChatHandler* handler, uint32 itemId, uint32 count, Optional<uint32> suffixId)
 {
     if (!itemId || !count)
     {

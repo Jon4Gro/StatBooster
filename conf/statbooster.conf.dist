@@ -9,7 +9,7 @@
 #					1 - (Enabled)
 #
 
-StatBooster.Enable = 0
+StatBooster.Enable = 1
 
 #
 #	StatBooster.VerboseEnable
@@ -33,7 +33,7 @@ StatBooster.VerboseEnable = 0
 #		Note: This announcement is displayed for the player only.
 #
 
-StatBooster.OnLoginEnable = 1
+StatBooster.OnLoginEnable = 0
 
 #
 #	StatBooster.OnLoginMessage
@@ -79,7 +79,7 @@ StatBooster.OnCraftItemEnable = 1
 #		Range:		0-100
 #
 
-StatBooster.LootItemChance = 100
+StatBooster.LootItemChance = 10
 
 #
 #	StatBooster.QuestRewardChance
@@ -88,7 +88,7 @@ StatBooster.LootItemChance = 100
 #		Range:		0-100
 #
 
-StatBooster.QuestRewardChance = 100
+StatBooster.QuestRewardChance = 20
 
 #
 #	StatBooster.CraftItemChance
@@ -126,7 +126,7 @@ StatBooster.MinQuality = 2
 #					5 - (Legendary)
 #
 
-StatBooster.MaxQuality = 4
+StatBooster.MaxQuality = 5
 
 ########################################
 
@@ -138,7 +138,7 @@ StatBooster.MaxQuality = 4
 #		Default:	1 - (Enabled)
 #
 
-StatBooster.PlaySoundEnable = 1
+StatBooster.PlaySoundEnable = 0
 
 #
 #	StatBooster.SoundId
@@ -177,7 +177,7 @@ StatBooster.SoulbindOnEnchantLoot = 0
 #		            1 - (Enabled)
 #
 
-StatBooster.SoulbindOnEnchantQuest = 0
+StatBooster.SoulbindOnEnchantQuest = 1
 
 #
 #	StatBooster.SoulbindOnEnchantCraft
@@ -206,21 +206,21 @@ StatBooster.AnnounceBoostEnable = 1
 #		Description: The chat message to be shown when looting a boosted item.
 #
 
-StatBooster.AnnounceLoot = "You looted a boosted item."
+StatBooster.AnnounceLoot = "Blessed Item received!"
 
 #
 #	StatBooster.AnnounceQuest
 #		Description: The chat message to be shown when receiving a boosted item from quest.
 #
 
-StatBooster.AnnounceQuest = "You received a boosted item."
+StatBooster.AnnounceQuest = "Blessed Item received!"
 
 #
 #	StatBooster.AnnounceCraft
 #		Description: The chat message to be shown when crafting a boosted item.
 #
 
-StatBooster.AnnounceCraft = "You crafted a boosted item."
+StatBooster.AnnounceCraft = ""
 
 ########################################
 
@@ -235,7 +235,7 @@ StatBooster.AnnounceCraft = "You crafted a boosted item."
 #				There is a chance to lose enchants on items when gemming an item with a boosted stat.
 #
 
-StatBooster.OverwriteEnchantEnable = 1
+StatBooster.OverwriteEnchantEnable = 0
 
 ########################################
 
@@ -256,7 +256,7 @@ StatBooster.Reroll.VisualId = 62015
 #        Default:     1 - Enabled
 #
 
-StatBooster.Reroll.AllowOwnedItemsOnly = 1
+StatBooster.Reroll.AllowOwnedItemsOnly = 0
 
 #
 #    StatBooster.Reroll.AllowBoostedItemsOnly
@@ -265,6 +265,7 @@ StatBooster.Reroll.AllowOwnedItemsOnly = 1
 #                     1 - Enabled
 #
 
-StatBooster.Reroll.AllowBoostedItemsOnly = 0
+StatBooster.Reroll.AllowBoostedItemsOnly = 1
 
 ########################################
+

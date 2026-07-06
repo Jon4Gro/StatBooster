@@ -310,7 +310,7 @@ StatBoostMgr::StatType StatBoostMgr::ScoreItem(Item* item, bool hasAdditionalSpe
     {
         if (sBoostConfigMgr->VerboseEnable)
         {
-            LOG_INFO("module", "Score: {}, Type: {}", score->Score, score->StatType);
+            LOG_INFO("module", "Score: {}, Type: {}", score->Score, score->statType);
         }
 
         if (score->Score > winningScore->Score)
@@ -335,7 +335,7 @@ StatBoostMgr::StatType StatBoostMgr::ScoreItem(Item* item, bool hasAdditionalSpe
         LOG_INFO("module", "Passed Scoring with scores: Tank({}), Phys({}), Spell({}), Hybrid({})", tankScore.Score, physScore.Score, spellScore.Score, hybridScore.Score);
     }
 
-    return winningScore->StatType;
+    return winningScore->statType;
 }
 
 void StatBoostMgr::MakeSoulbound(Item* item, Player* player)

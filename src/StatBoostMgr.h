@@ -24,7 +24,7 @@ private:
 
     struct ScoreData
     {
-        StatType StatType;
+        StatType statType;
         uint32 Score;
     };
 
