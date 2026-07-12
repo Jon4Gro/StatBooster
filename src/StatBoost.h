@@ -16,7 +16,7 @@ class StatBoosterPlayer : public PlayerScript
 public:
     StatBoosterPlayer() : PlayerScript("StatBoosterPlayer") { }
 
-    void OnLogin(Player* player) override;
+    void OnPlayerLogin(Player* player) override;
     void OnPlayerLootItem(Player* player, Item* item, uint32 /*count*/, ObjectGuid /*lootguid*/) override;
     bool OnPlayerQuestRewardItem(Player* player, Item* item, uint32 /*count*/) override;
     void OnPlayerCreateItem(Player* player, Item* item, uint32 /*count*/) override;
