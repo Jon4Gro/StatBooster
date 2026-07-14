@@ -169,8 +169,9 @@ bool StatBoosterPlayer::CanPlayerCastItemUseSpell(Player* player, Item* item, Sp
         return false;
     }
 
+    // Fixed null ptr issue with GetOwner()->GetGUID() changing to safe GetOwnerGUID()
     if (sConfigMgr->GetOption<bool>("StatBooster.Reroll.AllowOwnedItemsOnly", true) &&
-        targetItem->GetOwner()->GetGUID() != player->GetGUID())
+        targetItem->GetOwnerGUID() != player->GetGUID())
     {
         ChatHandler(player->GetSession()).SendSysMessage("You cannot re-roll items other than your own.");
         return false;
@@ -190,8 +191,7 @@ bool StatBoosterPlayer::CanPlayerCastItemUseSpell(Player* player, Item* item, Sp
         player->DestroyItemCount(itemTemplate->ItemId, 1, true);
 
         uint32 visualId = sConfigMgr->GetOption<uint32>("StatBooster.Reroll.VisualId", 62015);
-        player->CastSpell(player, visualId);
-        //player->HandleEmoteCommand(EMOTE_ONESHOT_LOOT);
+        player->CastSpell(player, visualId, true);
     }
     else
     {
@@ -205,7 +205,6 @@ void StatBoosterWorld::OnAfterConfigLoad(bool /*reload*/)
 {
     sBoostConfigMgr->Enable = sConfigMgr->GetOption<bool>("StatBooster.Enable", false);
 
-    //No point loading all of this information if the module is not enabled.
     if (sBoostConfigMgr->Enable)
     {
         sBoostConfigMgr->VerboseEnable = sConfigMgr->GetOption<bool>("StatBooster.VerboseEnable", false);
@@ -305,8 +304,8 @@ bool StatBoosterCommands::HandleSBAddItemCommand(ChatHandler* handler, uint32 it
 
     Item* item = player->StoreNewItem(dest, itemId, true);
 
-    StatBoostMgr statBoostMgr;
-    bool result = statBoostMgr.BoostItem(player, item, 100);
+    // Fixed unnecessary instantiation of StatBoostMgr
+    bool result = StatBoostMgr::BoostItem(player, item, 100);
 
     if (!item)
     {

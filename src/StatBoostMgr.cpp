@@ -14,14 +14,9 @@ StatBoostMgr::StatType StatBoostMgr::GetStatTypeFromSubClass(Item* item)
         case ITEM_SUBCLASS_WEAPON_CROSSBOW:
             switch (urand(0, 2))
             {
-            case 0:
-                return STAT_TYPE_TANK;
-
-            case 1:
-                return STAT_TYPE_PHYS;
-
-            case 2:
-                return STAT_TYPE_HYBRID;
+            case 0: return STAT_TYPE_TANK;
+            case 1: return STAT_TYPE_PHYS;
+            case 2: return STAT_TYPE_HYBRID;
             }
 
         case ITEM_SUBCLASS_WEAPON_THROWN:
@@ -30,30 +25,18 @@ StatBoostMgr::StatType StatBoostMgr::GetStatTypeFromSubClass(Item* item)
         case ITEM_SUBCLASS_WEAPON_DAGGER:
             switch (urand(0, 2))
             {
-            case 0:
-                return STAT_TYPE_PHYS;
-
-            case 1:
-                return STAT_TYPE_HYBRID;
-
-            case 2:
-                return STAT_TYPE_SPELL;
+            case 0: return STAT_TYPE_PHYS;
+            case 1: return STAT_TYPE_HYBRID;
+            case 2: return STAT_TYPE_SPELL;
             }
 
         case ITEM_SUBCLASS_WEAPON_STAFF:
             switch (urand(0, 3))
             {
-            case 0:
-                return STAT_TYPE_TANK;
-
-            case 1:
-                return STAT_TYPE_PHYS;
-
-            case 2:
-                return STAT_TYPE_HYBRID;
-
-            case 3:
-                return STAT_TYPE_SPELL;
+            case 0: return STAT_TYPE_TANK;
+            case 1: return STAT_TYPE_PHYS;
+            case 2: return STAT_TYPE_HYBRID;
+            case 3: return STAT_TYPE_SPELL;
             }
 
         case ITEM_SUBCLASS_WEAPON_AXE:
@@ -64,11 +47,8 @@ StatBoostMgr::StatType StatBoostMgr::GetStatTypeFromSubClass(Item* item)
         case ITEM_SUBCLASS_WEAPON_FIST:
             switch (urand(0, 1))
             {
-            case 0:
-                return STAT_TYPE_TANK;
-
-            case 1:
-                return STAT_TYPE_PHYS;
+            case 0: return STAT_TYPE_TANK;
+            case 1: return STAT_TYPE_PHYS;
             }
 
         case ITEM_SUBCLASS_WEAPON_WAND:
@@ -85,19 +65,11 @@ StatBoostMgr::StatType StatBoostMgr::GetStatTypeFromSubClass(Item* item)
             case INVTYPE_CLOAK:
                 switch (urand(0, 3))
                 {
-                case 0:
-                    return STAT_TYPE_TANK;
-
-                case 1:
-                    return STAT_TYPE_PHYS;
-
-                case 2:
-                    return STAT_TYPE_HYBRID;
-
-                case 3:
-                    return STAT_TYPE_SPELL;
+                case 0: return STAT_TYPE_TANK;
+                case 1: return STAT_TYPE_PHYS;
+                case 2: return STAT_TYPE_HYBRID;
+                case 3: return STAT_TYPE_SPELL;
                 }
-
             default:
                 return STAT_TYPE_SPELL;
             }
@@ -108,27 +80,18 @@ StatBoostMgr::StatType StatBoostMgr::GetStatTypeFromSubClass(Item* item)
         case ITEM_SUBCLASS_ARMOR_PLATE:
             switch (urand(0, 3))
             {
-            case 0:
-                return STAT_TYPE_TANK;
-
-            case 1:
-                return STAT_TYPE_PHYS;
-
-            case 2:
-                return STAT_TYPE_HYBRID;
-
-            case 3:
-                return STAT_TYPE_SPELL;
+            case 0: return STAT_TYPE_TANK;
+            case 1: return STAT_TYPE_PHYS;
+            case 2: return STAT_TYPE_HYBRID;
+            case 3: return STAT_TYPE_SPELL;
             }
 
         case ITEM_SUBCLASS_ARMOR_BUCKLER:
         case ITEM_SUBCLASS_ARMOR_SHIELD:
             switch (urand(0, 1))
             {
-            case 0:
-                return STAT_TYPE_TANK;
-            case 1:
-                return STAT_TYPE_SPELL;
+            case 0: return STAT_TYPE_TANK;
+            case 1: return STAT_TYPE_SPELL;
             }
         }
     }
@@ -143,14 +106,12 @@ StatBoostMgr::StatType StatBoostMgr::ScoreItem(Item* item, bool hasAdditionalSpe
         hybridScore { STAT_TYPE_HYBRID, 0 },
         spellScore { STAT_TYPE_SPELL, 0 };
 
-    //Store the scores in a vector so I can order by highest for a winner.
     std::vector<ScoreData*> roleScores;
     roleScores.push_back(&tankScore);
     roleScores.push_back(&physScore);
     roleScores.push_back(&hybridScore);
     roleScores.push_back(&spellScore);
 
-    //TODO: IMPLEMENT SCORING
     auto itemTemplate = item->GetTemplate();
     auto subClass = itemTemplate->SubClass;
 
@@ -172,7 +133,6 @@ StatBoostMgr::StatType StatBoostMgr::ScoreItem(Item* item, bool hasAdditionalSpe
         sBoostConfigMgr->EnchantScores.Evaluate(0, statType, subClass, tankScore.Score, physScore.Score, spellScore.Score, hybridScore.Score);
     }
 
-    //Sometimes stats are stored as additional spell effects and also need to be checked.
     if (hasAdditionalSpells)
     {
         auto scores = sBoostConfigMgr->EnchantScores.Get();
@@ -289,7 +249,6 @@ StatBoostMgr::StatType StatBoostMgr::ScoreItem(Item* item, bool hasAdditionalSpe
         }
     }
 
-    //Tally up the results, the highest score is picked.
     auto winningScore = roleScores[0];
 
     if (!winningScore)
@@ -298,7 +257,6 @@ StatBoostMgr::StatType StatBoostMgr::ScoreItem(Item* item, bool hasAdditionalSpe
         {
             LOG_INFO("module", "No winning score found.");
         }
-
         return STAT_TYPE_NONE;
     }
 
@@ -319,14 +277,12 @@ StatBoostMgr::StatType StatBoostMgr::ScoreItem(Item* item, bool hasAdditionalSpe
         }
     }
 
-    //No stats on the items could be scored.
     if (winningScore->Score < 1)
     {
         if (sBoostConfigMgr->VerboseEnable)
         {
             LOG_INFO("module", "No stats were scored.");
         }
-
         return STAT_TYPE_NONE;
     }
 
@@ -353,8 +309,6 @@ StatBoostMgr::StatType StatBoostMgr::AnalyzeItem(Item* item)
 {
     auto itemTemplate = item->GetTemplate();
 
-    //The spellids need to be checked because the Spells array is always allocated to a fixed size.
-    //Thus we need to count how many VALID spells are in the array.
     uint32 spellsCount = 0;
     for (const auto& spell : itemTemplate->Spells)
     {
@@ -384,7 +338,6 @@ bool StatBoostMgr::BoostItem(Player* player, Item* item, uint32 chance)
         return false;
     }
 
-    //Is not weapon or armor.
     if (!IsEquipment(item))
     {
         return false;
@@ -406,7 +359,6 @@ bool StatBoostMgr::BoostItem(Player* player, Item* item, uint32 chance)
         LOG_INFO("module", "Passed Quality Check. Quality({})", item->GetTemplate()->Quality);
     }
 
-    //Roll for the chance to upgrade.
     uint32 roll = urand(0, 100);
 
     if (roll > chance)
@@ -419,10 +371,8 @@ bool StatBoostMgr::BoostItem(Player* player, Item* item, uint32 chance)
         LOG_INFO("module", "Passed Roll Check. Roll({})", roll);
     }
 
-    //Fetch the type of stats that should be applied to the piece.
     StatType statType = AnalyzeItem(item);
 
-    //Failed to find a stat type.
     if (statType == STAT_TYPE_NONE)
     {
         statType = GetStatTypeFromSubClass(item);
@@ -484,17 +434,14 @@ bool StatBoostMgr::BoostItem(Player* player, Item* item, uint32 chance)
         LOG_INFO("module", ">> Trying to get enchant with role mask {}, class {}, subClass {}, itemType {}, and itemlevel {} from pool.", statType, itemClassMask, itemSubClassMask, itemTypeMask, itemLevel);
     }
 
-    //Fetch an enchant from the enchant pool.
     auto enchant = sBoostConfigMgr->EnchantPool.Get(statType, itemClassMask, itemSubClassMask, itemTypeMask, itemLevel);
 
-    //Failed to find a valid enchant.
     if (!enchant)
     {
         if (sBoostConfigMgr->VerboseEnable)
         {
             LOG_INFO("module", "Failed Enchant Check.");
         }
-
         return false;
     }
 
@@ -505,7 +452,8 @@ bool StatBoostMgr::BoostItem(Player* player, Item* item, uint32 chance)
 
     if (itemClass != ITEM_CLASS_WEAPON)
     {
-        return EnchantItem(player, item, TEMP_ENCHANTMENT_SLOT, enchant->Id, sBoostConfigMgr->OverwriteEnchantEnable);
+        // Fixed: Use BONUS_ENCHANTMENT_SLOT for regular armor properties, avoiding override of temp weapon buffs/kits
+        return EnchantItem(player, item, BONUS_ENCHANTMENT_SLOT, enchant->Id, sBoostConfigMgr->OverwriteEnchantEnable);
     }
     else
     {

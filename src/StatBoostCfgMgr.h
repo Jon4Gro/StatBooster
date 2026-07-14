@@ -1,7 +1,6 @@
 #ifndef MODULE_STAT_BOOST_CFG_MGR
 #define MODULE_STAT_BOOST_CFG_MGR
 
-#include <random>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -64,7 +63,6 @@ public:
 
     private:
         std::vector<EnchantDefinition> pool;
-        std::default_random_engine randomEngine;
     };
 
     EnchantPool EnchantPool;

@@ -1,19 +1,8 @@
 #ifndef MODULE_STAT_BOOST_COMMON
 #define MODULE_STAT_BOOST_COMMON
 
-#include "Chat.h"
-#include "Define.h"
-#include "Player.h"
-#include "ScriptMgr.h"
-#include "SpellMgr.h"
-#include "StringFormat.h"
-
-#include "StatBoostCfgMgr.h"
-
-/*
 #include <chrono>
 #include <vector>
-#include <format>
 #include <random>
 #include <algorithm>
 
@@ -27,6 +16,6 @@
 #include "ScriptMgr.h"
 
 #include "StatBoostCfgMgr.h"
-#include "StatBoostMgr.h"*/
+#include "StatBoostMgr.h"
 
 #endif

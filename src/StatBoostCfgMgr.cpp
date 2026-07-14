@@ -62,7 +62,6 @@ bool StatBoosterConfig::EnchantScorePool::Load()
         do
         {
             Field* fields = qResult->Fetch();
-
             EnchantScore enchantScore;
 
             enchantScore.modType = fields[0].Get<uint32>();
@@ -83,9 +82,9 @@ bool StatBoosterConfig::EnchantScorePool::Load()
             }
         } while (qResult->NextRow());
 
-        LOG_INFO("module", Acore::StringFormat(">> Loaded {} stat booster enchant scores", enchantCount));
+        LOG_INFO("module", ">> Loaded {} stat booster enchant scores", enchantCount);
     }
-    catch (std::exception ex)
+    catch (std::exception& ex)
     {
         LOG_INFO("module", "Failed to load enchant scores with message: {}", ex.what());
         LOG_INFO("module", "Disabling StatBooster module.");
@@ -112,23 +111,29 @@ void StatBoosterConfig::EnchantPool::Add(EnchantDefinition definition)
 
 EnchantDefinition* StatBoosterConfig::EnchantPool::Get(uint32 roleMask, uint32 classMask, uint32 subClassMask, uint32 itemTypeMask, uint32 itemLevel)
 {
-    std::shuffle(std::begin(pool), std::end(pool), randomEngine);
+    std::vector<EnchantDefinition*> validEnchants;
 
-    auto iterator = std::find_if(pool.begin(), pool.end(), [&](const EnchantDefinition& data)
+    // Safely iterate through the pool without mutating it (Thread-Safe)
+    for (auto& data : pool)
     {
-            return ((data.RoleMask & roleMask) == roleMask || data.RoleMask == 0) &&
-                ((data.ClassMask & classMask) == classMask || data.ClassMask == 0) &&
-                ((data.SubClassMask & subClassMask) == subClassMask || data.SubClassMask == 0) &&
-                ((data.ItemTypeMask & itemTypeMask) == itemTypeMask || data.ItemTypeMask == 0) &&
-                (itemLevel >= data.ILvlMin && itemLevel <= data.ILvlMax);
-    });
-
-    if (!(iterator == pool.end()))
-    {
-        return &(*iterator);
+        if (((data.RoleMask & roleMask) == roleMask || data.RoleMask == 0) &&
+            ((data.ClassMask & classMask) == classMask || data.ClassMask == 0) &&
+            ((data.SubClassMask & subClassMask) == subClassMask || data.SubClassMask == 0) &&
+            ((data.ItemTypeMask & itemTypeMask) == itemTypeMask || data.ItemTypeMask == 0) &&
+            (itemLevel >= data.ILvlMin && itemLevel <= data.ILvlMax))
+        {
+            validEnchants.push_back(&data);
+        }
     }
 
-    return 0;
+    if (!validEnchants.empty())
+    {
+        // Pick a random valid enchant using AzerothCore's thread-safe urand
+        uint32 index = urand(0, validEnchants.size() - 1);
+        return validEnchants[index];
+    }
+
+    return nullptr;
 }
 
 bool StatBoosterConfig::EnchantPool::Load()
@@ -152,7 +157,6 @@ bool StatBoosterConfig::EnchantPool::Load()
         do
         {
             Field* fields = qResult->Fetch();
-
             EnchantDefinition enchantDef;
 
             enchantDef.Id = fields[0].Get<uint32>();
@@ -172,9 +176,9 @@ bool StatBoosterConfig::EnchantPool::Load()
             }
         } while (qResult->NextRow());
 
-        LOG_INFO("module", Acore::StringFormat(">> Loaded {} stat booster enchant definitions", enchantCount));
+        LOG_INFO("module", ">> Loaded {} stat booster enchant definitions", enchantCount);
     }
-    catch (std::exception ex)
+    catch (std::exception& ex)
     {
         LOG_INFO("module", "Failed to load enchant table with message: {}", ex.what());
         LOG_INFO("module", "Disabling StatBooster module.");
