@@ -1,10 +1,5 @@
-# ![Azeroth Core](https://i.imgur.com/fQwb8m3.png) Stat Booster
-## Build Status
-|Master|Dev|
-|-|-|
-| ![Build Status](https://github.com/anchydev/statbooster/actions/workflows/core-build.yml/badge.svg?branch=master) | ![Build Status](https://github.com/anchydev/statbooster/actions/workflows/core-build.yml/badge.svg?branch=dev) |
+# ![Azeroth Core](https://i.imgur.com/fQwb8m3.png) Stat Booster for Classless
 
-⚠️ !! This module is not ready yet, however it is usable in its current state !! ⚠️
 ## About
 This is a module for [Azeroth Core](https://github.com/azerothcore/azerothcore-wotlk) inspired by the [RandomEnchants](https://github.com/azerothcore/mod-random-enchants) module. 
 The module will randomly enchant items with stats that compliment the item.
